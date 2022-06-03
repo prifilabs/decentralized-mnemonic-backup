@@ -135,7 +135,7 @@ Once the protocol is completed, Alice can now transfer the NFTs to her accointan
     \item Finally, the script generates a nonce $n_A$ and sends the transaction $\tx{request}{t_{id}, b_{id}}{email, id, pub_A, n_A}$ to the Secret Network
 \end{enumerate}
 
-\paragraph{Step 1 - Recovery Processing}
+\paragraph{Step 2 - Recovery Processing}
 
 \begin{enumerate}[label=2.\arabic*]
     \item The Secret Recovery Contract receives the transaction and retrieves the record from the {\tt confirm} dataset using the email and id from the transaction
@@ -159,7 +159,7 @@ Once the protocol is completed, Alice can now transfer the NFTs to her accointan
   \item Finally, the script sends a query $\tx{verify}{t_{id}', b_{id}'}{email, id, h}$ to the Secret Network
 \end{enumerate}
 
-\paragraph{Step 6 - Recovery Processing}
+\paragraph{Step 5 - Recovery Processing}
 
 \begin{enumerate}[label=5.\arabic*]
     \item The Secret Recovery Contract receives the $\ms{verify}$ transaction and checks that the query has not expire based on the initial block id $b_{id}$ and the current block id on the Secret Network
@@ -167,9 +167,9 @@ Once the protocol is completed, Alice can now transfer the NFTs to her accointan
   \item Finally, it returns the key $k$ back to the client
 \end{enumerate}
 
-\paragraph{Step 7 - Passphrase Decryption}
+\paragraph{Step 6 - Passphrase Decryption}
 
-\begin{enumerate}[label=7.\arabic*]
+\begin{enumerate}[label=6.\arabic*]
   \item After receivving the key back, the client-side script can now decrypt the ciphertext $c$ to obtain the passphrase $m=D_{\ms{AES}}(k, c)$
 \end{enumerate}
 
