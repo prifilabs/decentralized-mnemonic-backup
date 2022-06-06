@@ -35,21 +35,24 @@
 {\em ``If you do not own your private keys, you do not own your crypto''}
 \end{quote}
 
-This crypto adage encourages crypto enthusiasts to use non-custodial crypto wallets in which the private keys are directly stored on their device. However, using non-custodial wallets comes with the risk of losing all of our crypto assets if we lose our private keys. If our device gets lost, stolen or irremediably break down, our crypto assets might be locked forever as related in \cite{LostPasswords}.\\
+This crypto adage encourages crypto enthusiasts to use non-custodial crypto wallets in which the private keys are directly stored on their device. However, using non-custodial wallets comes with the risk of losing all of our crypto assets if we lose our private keys. If our device gets lost, stolen or irremediably break down, our crypto assets might be locked forever \cite{LostPasswords}.\\
 
 Fortunately, most non-custodial wallets such as Exodus (Bitcoin), Metamask (Ethereum) and Keplr (Secret Network) offer a way to recover our private keys by the mean of a ``recovery phrase'' also known as ``mnemonic seed phrase''. It is the 12-word phrase that we are being given the first time we setup our wallet. Here is an example of such a phrase: 
 
 \begin{quote}
-witch fox practice feed shame open despair creek road again ice least
+\begin{center}
+{\tt witch fox practice feed shame open}\\
+{\tt despair creek road again ice least}
+\end{center}
 \end{quote}
 
 That phrase is important as it is used to generate the same private keys on demand (BIP39 standard \cite{BIP39}). We can use them as a backup or to import our wallet into a new device. Indeed, this mnemonic phrase is a really sensitive piece of information. Anyone who has access to this phrase would have full control over our crypto assets as explained in the [Metamask FAQ page]\cite{MetamaskFAQ}:
 
 \begin{quote}
-{\em ``MetaMask requires that you store your Secret Recovery Phrase in a safe place. It is the only way to recover your funds should your device crash or your browser reset. We recommend you to write it down. The most common method is to write your 12-word phrase on a piece of paper and store it safely in a place where only you have access. Note: if you lose your Secret Recovery Phrase, MetaMask can’t help you recover your wallet. Never give you Secret Recovery Phrase or your private key(s) to anyone or any site, unless you want them to have full control over your funds.''}
+{\em ``MetaMask requires that you store your Secret Recovery Phrase in a safe place. It is the only way to recover your funds should your device crash or your browser reset. We recommend you to write it down. The most common method is to write your 12-word phrase on a piece of paper and store it safely in a place where only you have access. Note: if you lose your Secret Recovery Phrase, MetaMask can’t help you recover your wallet. Never give you Secret Recovery Phrase or your private key(s) to anyone or any site, unless you want them to have full control over your funds.''}\\
 \end{quote}
 
-As understood here, we are not expected to remember that phrase like a password. Instead, it is recommended that we write it down on a piece of paper and store it in a ``safe place''. But where is that ``safe place'' exactly? In our physical wallet with our cash and credit cards? Not ideal as it could get lost or stolen. Inside our home? No ideal again as it could burn down. A safe deposit box in the vault of a bank? it might be the best solution after all but the logistics that comes with it makes that solution very cumbersome. \\
+As understood here, we are not supposed to remember that phrase like a password. Instead, it is recommended that we write it down on a piece of paper and store it in a ``safe place''. But where is that ``safe place'' exactly? In our physical wallet with our cash and credit cards? Not ideal as it could get lost or stolen. Inside our home? No ideal again as it could burn down. A safe deposit box in the vault of a bank? it might be the best solution after all but the logistics that comes with it makes that solution very cumbersome. \\
  
 In the end, it is very inconvenient to store physical objects safely. So, could we design a simple application that would take custody of my passphrase and would allow me to recover by simply using my email? Yes we could build such an application, it would be something similar to a password manager such as {\em 1password} \cite{1password} for instance. However, such a solution requires 1) that the service provider is trustworthy an 2) that the whole application is secured. Indeed, such a centralized solution goes the philosophy of decentralized application. \\
 
@@ -69,6 +72,8 @@ In this paper, we propose a Decentralized Mnemonic Backup system that anyone can
 %
 % \subsection{Recovering a key}
 
+\newpage
+
 \section{The Cryptography Protocol}
 
 \subsection{Key Registration}
@@ -81,7 +86,7 @@ In this paper, we propose a Decentralized Mnemonic Backup system that anyone can
   \item Finally, the script sends the transaction $\tx{request}{t_{id}, b_{id}}{email, id, pub_A, n_A}$ to the Secret Network using the throwaway Secret account that Alice has just provisioned.
 \end{enumerate}
 
-\paragraph{Step 2 - Registration Processing}
+\paragraph{Step 2 - Registration Process}
 
 \begin{enumerate}[label=2.\arabic*]
   \item The Secret Recovery Contract receives the $\ms{register}$ transaction request and generates a new ECDH private and public key pair $(sec_B, pub_B)$ and a nonce $n_B$
@@ -93,7 +98,7 @@ In this paper, we propose a Decentralized Mnemonic Backup system that anyone can
 
 \begin{enumerate}[label=3.\arabic*]
   \item Any transaction sent to the Secret Recovery Contract Contract triggers an event handler on the mailer backend. Once a transaction has been validated, the mailer backend sends a query $\qry{info}{t_id}$ to the Recovery Contract to get information about that transaction.
-  \item The Secret Recovery Contract retrieves the record from the {\tt register} dataset and checks that the query has not expire based on the initial block id $b_{id}$ and the current block id on the Secret Network
+  \item The Secret Recovery Contract checks that the query comes from the mailer backend address and retrieves the record from the {\tt register} dataset and checks that the query has not expire based on the initial block id $b_{id}$ and the current block id on the Secret Network
   \item Then, it returns the $email$, the public key pair $pub_B$ and the nonce $n_B$.
   \item Finally, the mailer daemon sends an email to Alice with the confirmation code $(pub_B, n_B)$
 \end{enumerate}
@@ -107,7 +112,7 @@ In this paper, we propose a Decentralized Mnemonic Backup system that anyone can
   \item Finally, the script sends the transaction $\tx{confirm}{t_{id}', b_{id}'}{email, id, h}$ to the Secret Network
 \end{enumerate}
 
-\paragraph{Step 5 - Confirmation Processing}
+\paragraph{Step 5 - Confirmation Process}
 
 \begin{enumerate}[label=5.\arabic*]
   \item The Secret Recovery Contract receives the $\ms{confirm}$ transaction and checks that the query has not expire based on the initial block id $b_{id}$ and the current block id on the Secret Network
@@ -115,7 +120,7 @@ In this paper, we propose a Decentralized Mnemonic Backup system that anyone can
   \item Finally, the contract stores the tuple $(email, id, k)$ in the {\tt confirm} dataset.
 \end{enumerate}
 
-\paragraph{Step 6 - NFT Minting}
+\paragraph{Step 6 - NFTs Minting}
 
 \begin{enumerate}[label=6.\arabic*]
   \item Once the transaction has been validated, the client-side script can now encrypt (using AES in GCM mode) the passphrase $m$ with the key $k$ to obtain the ciphertext $c=E_{\ms{AES}}(k, m)$
@@ -135,7 +140,7 @@ Once the protocol is completed, Alice can now transfer the NFTs to her accointan
     \item Finally, the script generates a nonce $n_A$ and sends the transaction $\tx{request}{t_{id}, b_{id}}{email, id, pub_A, n_A}$ to the Secret Network
 \end{enumerate}
 
-\paragraph{Step 2 - Recovery Processing}
+\paragraph{Step 2 - Recovery Process}
 
 \begin{enumerate}[label=2.\arabic*]
     \item The Secret Recovery Contract receives the transaction and retrieves the record from the {\tt confirm} dataset using the email and id from the transaction
@@ -146,7 +151,7 @@ Once the protocol is completed, Alice can now transfer the NFTs to her accointan
 
 \begin{enumerate}[label=3.\arabic*]
   \item Any transaction sent to the Secret Recovery Contract Contract triggers an event handler on the mailer backend. Once a transaction has been validated, the mailer backend sends a query $\qry{info}{t_id}$ to the Recovery Contract to get information about that transaction.
-  \item The Secret Recovery Contract retrieves the record from the {\tt register} dataset and checks that the query has not expire based on the initial block id $b_{id}$ and the current block id on the Secret Network
+  \item The Secret Recovery Contract checks that the query comes the mailer backend and retrieves the record from the {\tt register} dataset and checks that the query has not expire based on the initial block id $b_{id}$ and the current block id on the Secret Network
   \item Then, it returns the $email$, the public key the nonce $n_B$.
   \item Finally, the mailer daemon sends an email to Alice with the verification code $n_B$
 \end{enumerate}
@@ -159,7 +164,7 @@ Once the protocol is completed, Alice can now transfer the NFTs to her accointan
   \item Finally, the script sends a query $\tx{verify}{t_{id}', b_{id}'}{email, id, h}$ to the Secret Network
 \end{enumerate}
 
-\paragraph{Step 5 - Recovery Processing}
+\paragraph{Step 5 - Recovery Process}
 
 \begin{enumerate}[label=5.\arabic*]
     \item The Secret Recovery Contract receives the $\ms{verify}$ transaction and checks that the query has not expire based on the initial block id $b_{id}$ and the current block id on the Secret Network
