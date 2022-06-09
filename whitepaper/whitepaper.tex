@@ -56,25 +56,53 @@ As understood here, we are not supposed to remember that phrase like a password.
  
 In the end, it is very inconvenient to store physical objects safely. So, could we design a simple application that would take custody of my passphrase and would allow me to recover by simply using my email? Yes we could build such an application, it would be something similar to a password manager such as {\em 1password} \cite{1password} for instance. However, such a solution requires 1) that the service provider is trustworthy an 2) that the whole application is secured. Indeed, such a centralized solution goes the philosophy of decentralized application. \\
 
-In this paper, we propose a Decentralized Mnemonic Backup system that anyone can use to give custody to any blockchain passphrase to the Secret Network \cite{SecretNetwork} and recover it using a simple email.  
+In this paper, we propose a Decentralized Mnemonic Backup system that anyone can use to give custody to any blockchain passphrase to the Secret Network \cite{SecretNetwork} and recover it using a simple email. 
 
-% \section{From a naive idea to a sophisticated solution}
-%
-% Alice should backup her passphrase using a throwaway wallet. She will not need that same wallet to get a passphrase back. Actually, we are making the strong assumption throughout this paper that when comes the day Alice needs her passphrase back, we will assume that she does not have access to any wallet, does not remember any secret or password; she will have access to her emails only.
-%
-% \section{The Key Recovery System}
-%
-% \subsection{Registering a key}
-%
-% {\bf Step 1: Setup}
-%
-% \begin{item}
-%
-% \subsection{Recovering a key}
+Iteration 1: user experience
+Iteration 2: security hardening (Secret NFTs + key exchange protocol)
+Iteration 3: improving reliability (Shamir' Secret Sharing sheme)
 
-\newpage
+\section{Iteration 1: the user experience}
 
-\section{The Cryptography Protocol}
+Once of the greatest feature of the Secret Contracts is that the data are encrypted. Therefore, we could implement ... 
+
+\subsection{The Protocol}
+
+\paragraph{Backup}
+
+\begin{enumerate} 
+\item {\bf Request} - Alice enters her $email$, a passphrase $pp$ and an $id$ for her passphrase on a webpage. After pressing the submit button, a script running inside the webpage sends a transaction {\bf $\ms{register}(email, id)$} to the Recovery Secret Contract. 
+\item {\bf Registration} - The Secret Recovery Contract generates a random confirmation code and stores the record $(t_{id}, email, id, code)$ in the {\tt register} dataset. 
+\item {\bf Emailing} - Once the request transaction has been validated, an event handler is triggered on the Mailer Backend that queries the Recovery Secret Contract for the email and confirmation code associated with the transaction id. Thus, the Mailer Backend sends the confirmation code to Alice by email. 
+\item {\bf Confirmation} - Now Alice sees a webpage that asks her to enter the confirmation code sent by email. She opens her email and copies'n paste the confirmation code into her browser. After pressing the submit button, a script running inside the webpage sends a transaction $\ms{confirm}(email, id, pp, code)$ to the Recovery Secret Contract. 
+\item {\bf Recording} - The Secret Recovery Contract verifies the verification and stores the record $(email, id, pp)$ in the {\tt confirm} dataset. 
+\end{enumerate}
+
+\paragraph{Recovery}
+
+\begin{enumerate}
+\item {\bf Request} - Alice enters her $email$ and an $id$ for her passphrase. After pressing the submit button, a script running inside the webpage sends a transaction {\bf $\ms{recover}(email, id)$} to the Recovery Secret Contract. 
+\item {\bf Registration} - The Secret Recovery Contract generates a random verification code and stores the record $(t_{id}, email, id, code)$ in the {\tt recover} dataset. 
+\item {\bf Emailing} - Once the request transaction has been validated, an event handler is triggered on the Mailer Backend that queries the Recovery Secret Contract for the email and verification code associated with the transaction id. Thus, the Mailer Backend sends the verification code to Alice by email. 
+\item {\bf Verification} - Now, Alice sees a webpage that asks her to enter the verification code sent by email. She opens her email and copies'n paste that verification code into her browser. After pressing the submit button, a script running inside the page sends a query $\ms{verification}(email, id, code)$ to the Recovery Secret Contract. 
+\item {\bf Response} - The Secret Recovery Contract verifies the verification code, retrieves the corresponding record from the {\tt recover} dataset and returns the passphrase.
+\end{itemize}
+
+\subsection{Security Analysis}
+
+Although, this first iteration captures the user experience that we want, it is unfortunately not satisfactory in terms of security. There are three single points of failure: 1) Alice's account, 2) the Mailer Backend and 3) the Secret Recovery Contract. \\
+
+What if Alice's account is hacked? As explained earlier, it is recommended that Alice uses a throwaway Secret account when registering a passphrase. As soon as the passphrase has been recorded, she can forget about this account since she won't need to recover her passphrase. However, what if the account's private key is leaked somehow? It would be bad since the attacker with this key could look into the transaction history and get the passphrase. \\
+
+What if the Mailer Backend is hacked? Let's consider the two phases: backup and recovery. During the backup phase, the attacker could use the confirmation code to upload an arbitrary passphrase for Alice. This is a problem if Alice recovers what she believes is her original passphrase but is in fact the passphrase to an account that the attacker can access as well. Then, any new asset Alice puts in this account from now on can be stolen by the attacker. During recovery phase it is even worst since the attacker could use the verification code to query the Recovery Secret Contract directly and get the passphrase back. \\
+
+What if the Recovery Secret Contract is hacked? This is by far the biggest threat here since the attacker will have access to all users' passphrases.  \\
+
+Indeed, all of these security threats are not acceptable and we are going to address all of these issues by hardening our protocol in the next iteration. 
+
+\section{Iteration  2: improving security}
+
+She creates a throwaway account on the Secret Network and mints a Secret NFT embedding her passphrase as secret metadata. Then, she sends this NFT to her friend Bob. When the day comes that she needs to recover her passphrase, she can create yet another throwaway account and ask Bob to send her back her NFT top recover the passphrase. 
 
 \subsection{Key Registration}
 
@@ -97,8 +125,8 @@ In this paper, we propose a Decentralized Mnemonic Backup system that anyone can
 \paragraph{Step 3 - Confirmation Email}
 
 \begin{enumerate}[label=3.\arabic*]
-  \item Any transaction sent to the Secret Recovery Contract Contract triggers an event handler on the mailer backend. Once a transaction has been validated, the mailer backend sends a query $\qry{info}{t_id}$ to the Recovery Contract to get information about that transaction.
-  \item The Secret Recovery Contract checks that the query comes from the mailer backend address and retrieves the record from the {\tt register} dataset and checks that the query has not expire based on the initial block id $b_{id}$ and the current block id on the Secret Network
+  \item Any transaction sent to the Secret Recovery Contract Contract triggers an event handler on the Mailer Backend. Once a transaction has been validated, the Mailer Backend sends a query $\qry{info}{t_id}$ to the Recovery Contract to get information about that transaction.
+  \item The Secret Recovery Contract checks that the query comes from the Mailer Backend address and retrieves the record from the {\tt register} dataset and checks that the query has not expire based on the initial block id $b_{id}$ and the current block id on the Secret Network
   \item Then, it returns the $email$, the public key pair $pub_B$ and the nonce $n_B$.
   \item Finally, the mailer daemon sends an email to Alice with the confirmation code $(pub_B, n_B)$
 \end{enumerate}
@@ -135,7 +163,7 @@ Once the protocol is completed, Alice can now transfer the NFTs to her accointan
 \paragraph{Step 1 - Recovery Request}
 
 \begin{enumerate}[label=1.\arabic*]
-    \item Alice creates a new Secret Wallet and asks her friend to send her NFTs back. Once she has at least $j$ of those NFTs on her wallet, she goes to the recovery page that asks her to select the NFTs.
+    \item Alice creates a new Secret Wallet and asks her friend to send the NFTs back. Once she has at least $j$ of those NFTs on her wallet, she goes to the recovery page that asks her to select the NFTs.
     \item Then, the script in the webpage collects the shares and extracts the $id$ and the ciphertext from the NFTs $id||c = D_{\ms{SSS}}(s_1,\cdots,s_j)$
     \item Finally, the script generates a nonce $n_A$ and sends the transaction $\tx{request}{t_{id}, b_{id}}{email, id, pub_A, n_A}$ to the Secret Network
 \end{enumerate}
@@ -150,8 +178,8 @@ Once the protocol is completed, Alice can now transfer the NFTs to her accointan
 \paragraph{Step 3 - Verification Email}
 
 \begin{enumerate}[label=3.\arabic*]
-  \item Any transaction sent to the Secret Recovery Contract Contract triggers an event handler on the mailer backend. Once a transaction has been validated, the mailer backend sends a query $\qry{info}{t_id}$ to the Recovery Contract to get information about that transaction.
-  \item The Secret Recovery Contract checks that the query comes the mailer backend and retrieves the record from the {\tt register} dataset and checks that the query has not expire based on the initial block id $b_{id}$ and the current block id on the Secret Network
+  \item Any transaction sent to the Secret Recovery Contract Contract triggers an event handler on the Mailer Backend. Once a transaction has been validated, the Mailer Backend sends a query $\qry{info}{t_id}$ to the Recovery Contract to get information about that transaction.
+  \item The Secret Recovery Contract checks that the query comes the Mailer Backend and retrieves the record from the {\tt register} dataset and checks that the query has not expire based on the initial block id $b_{id}$ and the current block id on the Secret Network
   \item Then, it returns the $email$, the public key the nonce $n_B$.
   \item Finally, the mailer daemon sends an email to Alice with the verification code $n_B$
 \end{enumerate}
@@ -180,7 +208,19 @@ Once the protocol is completed, Alice can now transfer the NFTs to her accointan
 
 Once the protocol is completed, Alice sees her passphrase on the webpage.
 
-\section{Discussion}
+\subsection{Usability Analysis}
+
+This second iteration of our Mnemonic Backup System is more secured. If the Mailer Daemon is breached, the attacker will not be able to recover the key using the code without the user's nonce. If the Recovery Secret Contract is hacked, indeed the attacker will get all users keys. However, those keys are useless since the attacker cannot locate the NFTs to retrieve the encrypted passphrase.
+
+\section{Iteration 3: improving reliability}
+
+\subsection{The Protocol}
+
+For the backup, Alice needs to specify the number of shares $i$ she wants to generates and the minimum number of shares $j$ needed to retrieve the passphrase (threshold value). Once, the encryption key has been fully registered in the contract, the script encrypts the passphrase, concatenates the id and the ciphertext to generate the $i$ shares using the SSS algorithm: $(s_1,\cdots,s_i)=E_{\ms{SSS}}(id||c, i, j)$. Finally, the script mints the $i$ Secret NFTs on the Secret Network. Once the protocol is completed, Alice can now transfer the NFTs to her accointances. 
+
+For the recovery, Alice creates a new Secret Wallet and asks all of her friends to send their NFTs back. Once she has at least $j$ of those NFTs on her wallet, she goes to the recovery page that asks her to select the NFTs. Then, the script in the webpage collects the shares and extracts the $id$ and the ciphertext from the NFTs $id||c = D_{\ms{SSS}}(s_1,\cdots,s_j)$. Then, the protocol continues like in the previous iteration. 
+
+\section{Value capture for Secret Network ecosystem}
 
 This backup system will demonstrate that the Secret Network privacy model is adequate to keep sensitive information confidential. Key features of Secret NFTs: secret metada and private ownership \\ 
 
