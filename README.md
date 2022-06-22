@@ -1,2 +1,1 @@
-# decentralized-mnemonic-backup
-Decentralized Mnemonic Backup System
+# Decentralized Mnemonic Backup System

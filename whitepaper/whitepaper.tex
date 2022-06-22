@@ -26,9 +26,9 @@
 
 \maketitle
 
-\begin{abstract}
-
-\end{abstract}
+% \begin{abstract}
+%
+% \end{abstract}
 
 \section{Introduction}
 
@@ -202,9 +202,9 @@ This second iteration of our Mnemonic Backup System is more secured. Let us disc
 
 What if Alice's account is hacked? As explained earlier, it is recommended that Alice uses a throwaway Secret account when registering a passphrase. However, if the account's private key was leaked, an attacker could know to which address the NFT has been transfered but could not retrieve the encryption key with the information recorded in the different transactions. \\
 
-What if the Mailer Backend is hacked? Let us consider the two phases: backup and recovery. During the backup phase, the attacker could not use the confirmation to upload an arbitrary key since the attacker does not know the client's ECDH secret. Same thing during the recovery phase, the attacker would not be able to retrieve the key without the client's nonce. \\
+What if the Mailer Backend is hacked? Let us consider the two phases: backup and recovery. During the backup phase, the attacker could not use the confirmation to upload an arbitrary key since the attacker does not know the client's id and ECDH secret. During the recovery phase, the attacker could retrieve the key but without locating and getting each Secret NFT back, the attacker will not be able to get the passphrase. \\
 
-What if the Recovery Secret Contract is hacked? The attacker would be able to get all of the encryption keys but without locating and getting each Secret NFT back, the attacker will not be able to get the passphrase. The fact that the encrypted passphrase is embedded in a Secret NFT separated from the Recovery Secret Contract is the most important security features that makes our system resilient to attacks. \\
+What if the Recovery Secret Contract is hacked? The attacker would be able to get all of the encryption keys but, again, without locating and getting each Secret NFT back, the attacker will not be able to get the passphrase. The fact that the encrypted passphrase is embedded in a Secret NFT separated from the Recovery Secret Contract is the most important security features that makes our system resilient to attacks. \\
 
 However, having a friend holding the Secret NFT introduces another problem: what if that friend does not or cannot return the NFT back? The passphrase would be locked forever. We are improving this availability issue in our next and final iteration. 
 
