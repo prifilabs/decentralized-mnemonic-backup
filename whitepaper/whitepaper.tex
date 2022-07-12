@@ -91,7 +91,7 @@ During backup (see figure~\ref{it1:backup}), the goal is to verify Alice's email
 
  % To do so, Alice will need to send a transaction to the Recovery Secret Contract. Here, we recommend her to create a throwaway Secret account.
 
-\begin{figure}
+\begin{figure}[h!]
   \includegraphics[width=\linewidth]{./media/media-001.png}
   \caption{Iteration 1 - Backup}
   \label{it1:backup}
@@ -111,7 +111,7 @@ During recovery (see figure~\ref{it1:recovery}), the goal is to verify Alice's e
 
 % To do so, Alice needs to create yet another throwaway Secret account to send a transaction to the Recovery Smart Contract. Indeed, it cannot require Alice to use the same Secret account that she used for the backup. If Alice needs to recover a passphrase, she probably no longer have access to it anyway.
 
-\begin{figure}
+\begin{figure}[h!]
   \includegraphics[width=\linewidth]{./media/media-002.png}
   \caption{Iteration 1 - Recovery}
   \label{it1:recovery}
@@ -121,7 +121,7 @@ During recovery (see figure~\ref{it1:recovery}), the goal is to verify Alice's e
 \item {\bf Request} - Alice enters her $email$ and, after pressing the submit button, a script running inside the webpage sends a transaction {\bf $\ms{recover}(email)$} to the Recovery Secret Contract to the Secret Network using a throwaway Secret account that Alice has just provisioned. 
 \item {\bf Registration} - The Secret Recovery Contract generates a random verification code and stores the record $(t_{id}, email, code)$ in the {\tt recover} dataset. 
 \item {\bf Emailing} - Once the request transaction has been validated, an event handler is triggered on the Mailer Backend that queries the Recovery Secret Contract for the email and verification code associated with the transaction id. Thus, the Mailer Backend sends the verification code to Alice by email. 
-\item {\bf Verification} - Now, Alice sees a webpage that asks her to enter the verification code sent by email. She opens her email and copies'n paste that verification code into her browser. After pressing the submit button, a script running inside the page sends a query $\ms{verification}(email, code)$ to the Recovery Secret Contract. 
+\item {\bf Verification} - Now, Alice sees a webpage that asks her to enter the verification code sent by email. She opens her email and copies'n paste that verification code into her browser. After pressing the submit button, a script running inside the page sends a query $\ms{verify}(email, code)$ to the Recovery Secret Contract. 
 \item {\bf Response} - The Secret Recovery Contract verifies the verification code, retrieves the corresponding record from the {\tt recover} dataset and returns the passphrase.
 \end{enumerate}
 
@@ -142,7 +142,7 @@ Indeed, all of these security threats are not acceptable and we are going to add
 
 As discussed earlier, we should not store all users' passphrases in the same Secret contract in case that contract gets breached. Actually, it would be safer to store each passphrase in its own contract and have those contracts be owned by different accounts. So, for this second iteration, let us try a different approach. Let us have Alice creating a throwaway Secret account to mint a Secret NFT embedding the passphrase as a secret metadata. Then, she sends that NFT to her friend Charlie as a way to backup her passphrase. When the doomsday comes, she could recover her passphrase by asking Charlie to send her NFT back. Indeed, this approach is not secure since Charlie could access the passphrase as soon as he owns the NFT. A solution to that is to have Alice encrypting her passphrase when minting the NFT so that Charlie cannot decrypt without the key. However, we have another problem now, where to store the key when Alice needs it to recover her passphrase? We could actually adopt the same approach as describe in iteration 1. Instead of storing all passphrases in the Recovery Smart Contract, we could store all users' encryption keys. But, did not we say that this was insecure? It is more secure actually. While it is true that all the keys would be exposed if the contract is breached, however, those keys are now worthless if the attacker is not able to locate and regain those NFTs one by one to extract each passphrase. Our system is more secure since breaking those passphrases is now lot harder for the attacker. \\
 
-There were two other problems we identified in iteration 1 that do not go away with our new NFT approach. First, if an attacker could hacks into Alice's backup account, he could recover the key sent to the Recovery Secret Contract. Secondly, if an attacker hacks into the mailer backup, he could also recover the key by getting the verification code. In this approach we fix those two problems by implementing the Diffie-Hellman Key Exchange key protocol on the Secret blockchain. The goal is to have Alice's account and the Recover Secret Contract negotiate a key without exchanging it explicitly during the backup phase.
+There were two other problems we identified in iteration 1 that do not go away with our new NFT approach. First, if an attacker could hacks into Alice's backup account, he could recover the key sent to the Recovery Secret Contract. Secondly, if an attacker could hacks into the mailer backup, he could also recover the key by getting the verification code. In this approach we fix those two problems by implementing the Diffie-Hellman Key Exchange key protocol on the Secret blockchain. The goal is to have Alice's account and the Recover Secret Contract negotiate a key without exchanging it explicitly during the backup phase.
 
 \subsection{The Diffie-Hellman Key Exchange Protocol}
 
@@ -160,7 +160,7 @@ All of those new features are detailed in the new version of the protocol shown 
 
 \paragraph{Backup}
 
-\begin{figure}
+\begin{figure}[h!]
   \includegraphics[width=\linewidth]{./media/media-003.png}
   \caption{Iteration 2 - Backup}
   \label{it2:backup}
@@ -179,7 +179,7 @@ Once the protocol is completed, Alice can transfer the NFT to Charlie.
 
 \paragraph{Recovery}
 
-\begin{figure}
+\begin{figure}[h!]
   \includegraphics[width=\linewidth]{./media/media-004.png}
   \caption{Iteration 2 - Recovery}
   \label{it2:recovery}
@@ -219,7 +219,7 @@ Shamir's Secret Sharing scheme is a cryptography protocol usually used for split
 
 \subsection{The Protocol}
 
-\begin{figure}
+\begin{figure}[h!]
   \includegraphics[width=\linewidth]{./media/media-005.png}
   \caption{Iteration 3 - Shamir's Secret Sharing NFTs}
   \label{it3:backup}
@@ -231,7 +231,7 @@ Shamir's Secret Sharing scheme is a cryptography protocol usually used for split
 
 \section{Value Capture for Secret Network Ecosystem}
 
-This backup system will demonstrate that the Secret Network privacy model is adequate to keep sensitive information confidential. Key features of Secret NFTs: secret metada and private ownership \\ 
+This backup system will demonstrate that the Secret Network privacy model is adequate to keep sensitive information confidential relying on two important features of Secret NFTs: secret metada and private ownership \\ 
 
 Why implementing our backup system on Secret Network rather than Ethereum? Is it because Ethereum-based NFTs do not have secret metadata? Not really since we could have created a password protected version of the share and hid it inside a public NFT image using Steganography \cite{Steganography}. The real problem is that if an attacker knows that an NFT contains a share to recover a mnemonic phrase, he or she will be able to locate all others NFTs that contains the other shares easily since ownership is public on Ethereum. The fact that Secret NFTs protects the ownership is the key feature that makes our backup system secured. 
 
