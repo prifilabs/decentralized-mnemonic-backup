@@ -154,7 +154,7 @@ In practice, this shared secret value is usually not used as a cryptographic key
 
 \subsection{The Protocol}
 
-Moreover, we are adding two additional features to our NFT-based Mnemonic Backup System. First, Alice can now backup several passphrases and still recover each of them with the same email. To do so, she will attach a unique id with each NFT during backup and ask the Recovery Smart Contract for that specific id when she needs to recover the associated key. Secondly, Alice has now a limited time to enter her confirmation code during backup or validation code during recovery. this time limit is calculated based on the number of blocks that have been validated since Alice has made her original request to the Secret Recovery Contract. \\
+Moreover, we are adding two additional features to our NFT-based Mnemonic Backup System. First, Alice can now backup several passphrases and still recover each of them with the same email. To do so, she will attach a unique id with each NFT during backup and ask the Recovery Smart Contract for that specific id when she needs to recover the associated key. Secondly, Alice has now a limited time to enter her confirmation code during backup or validation code during recovery. This time limit is calculated based on the number of blocks that have been validated since Alice has made her original request to the Secret Recovery Contract. \\
 
 All of those new features are detailed in the new version of the protocol shown in figures \ref{it2:backup} and \ref{it2:recovery}.
 
@@ -231,7 +231,7 @@ Shamir's Secret Sharing scheme is a cryptography protocol usually used for split
 
 \section{Value Capture for Secret Network Ecosystem}
 
-This backup system will demonstrate that the Secret Network privacy model is adequate to keep sensitive information confidential relying on two important features of Secret NFTs: secret metada and private ownership \\ 
+This backup system will demonstrate that the Secret Network privacy model is adequate to keep sensitive information confidential relying on two important features of Secret NFTs: secret metadata and private ownership.\\ 
 
 Why implementing our backup system on Secret Network rather than Ethereum? Is it because Ethereum-based NFTs do not have secret metadata? Not really since we could have created a password protected version of the share and hid it inside a public NFT image using Steganography \cite{Steganography}. The real problem is that if an attacker knows that an NFT contains a share to recover a mnemonic phrase, he or she will be able to locate all others NFTs that contains the other shares easily since ownership is public on Ethereum. The fact that Secret NFTs protects the ownership is the key feature that makes our backup system secured. 
 
