@@ -1,62 +1,73 @@
-# Decentralized Mnemonic Backup System
-
-# PriFi Labs Inc. 
+#  Decentralized Mnemonic Backup System by PriFi Labs Inc.
 
 ## Project Description
-This is an **example** application for a grant programme: **Secret Network Grant Program: Secret Apps**
 
-We intend to create a staking derivatives on Secret Network. More implementations will increase capital efficiecy in Secret Network and enable SCRT staked to secure Secret Network to be used in other Secret Network applications such as DeFi, governance and games.
+> Not Your Keys, not Your Coins.
 
-Our team has been closely following Ethereum DeFi and Secret Network in the last year, and are active in the chat channels. Needless to say, we are really excited to see this project evolve.
+This crypto mantra, popularized by Andreas Antonopoulos, encourages us, crypto enthusiasts, to use non-custodial crypto wallets in which the private keys are directly stored on their device. However, using non-custodial wallets comes with the risk of losing all of our crypto assets if we lose our private keys. If our device gets lost, stolen or irremediably break down, our crypto assets might be locked forever. 
+
+Fortunately, most non-custodial wallets such as Exodus (Bitcoin), Meta- mask (Ethereum) and Keplr (Secret Network) offer a way to recover our private keys by the mean of a “recovery phrase” also known as “mnemonic seed phrase”. It is the 12-word phrase that we are being given the first time we setup our wallet. Indeed, this mnemonic phrase is a really sensitive piece of information. Anyone who has access to this phrase would have full control over our crypto assets. Usually, it is recommended to write it down on a piece of paper and store it in a “safe place”. But where is that “safe place” exactly? In our physical wallet with our cash and credit cards? Not ideal as it could get lost or stolen. Inside our home? No ideal again as it could burn down. A safe deposit box in the vault of a bank? it might be the best solution after all but the logistics that comes with it makes that solution very cumbersome.
+
+In the end, it is quite inconvenient to store physical objects safely. So, could we design a simple application that would take custody of my passphrase and would allow me to recover by simply using my email? Yes we could build such an application, it would be something similar to a password manager such as 1password for instance. However, such a solution requires 1) that the service provider is trustworthy an 2) that the whole application is se- cured. Indeed, such a centralized solution is not a good solution as it goes against the philosophy of decentralized application.
 
 ## Problem / Solution
-SCRT staked to secure Secret Network cannot be used in Secret Network ecosystem, creating a capital inefficiency. Staking derivatives (dxSCRT) allows SC RT holders to...
+
+In this paper, we propose a Decentralized Mnemonic Backup system that anyone can use to give custody to any blockchain passphrase to the Secret Network \cite{SecretNetwork} and recover it using a simple email. The idea is to encrypt the passphrase and split it into multiple Secret NFTs using the Shamir's Secret Sharing cryptographic protocol. The encryption key is saved in a Secret smart contract. This key is never recorded in any transaction. Instead, it is generated using the Diffie-Hellman Key Exchange Protocol that is similarly used in well known protocols such as TLS and Signal. 
 
 ## Detailed product description
-The components of staking derivatives (dxSCRT) contract include a validator set module that determines validator participation, staking module which handles bonded tokens and liquidity pool.
 
+All details of our solution is in [the whitepaper](whitepaper/whitepaper.pdf).
+ 
 ## Go-to-Market plan
-As dxSCRT is a clear value proposition for existing SCRT holders, we hope to promote this effort within the Secret Network community
+
+We plan to let people backing up their passphrase for free beyond paying the gas fee to register the encryption key and minting the Secret NFTs that embed the shares of the encrypting passphrase. However, we will generate revenue when users want to recover their mnemonic passphrase by paying a fee to retrieve the encryption key. 
 
 ## Value capture for Secret Network ecosystem
-The main KPIs for Secret Network is TVL (privacy value add to other blockchain ecosystems), number of transactions and number of user (for applications)
+
+This backup system will demonstrate that the Secret Network privacy model is adequate to keep sensitive information confidential relying on two important features of Secret NFTs: secret metadata and private ownership.
+
+Why implementing our backup system on Secret Network rather than Ethereum? Is it because Ethereum-based NFTs do not have secret metadata? Not really since we could have created a password protected version of the share and hid it inside a public NFT image using Steganography \cite{Steganography}. The real problem is that if an attacker knows that an NFT contains a share to recover a mnemonic phrase, he or she will be able to locate all others NFTs that contains the other shares easily since ownership is public on Ethereum. The fact that Secret NFTs protects the ownership is the key feature that makes our backup system secured. 
 
 ## Team members
-* John Smith
-* Alice Jones
-* Bob Johnson
+* Thierry Sans: Founder, CEO of PriFi Labs Inc as well as an Associate Professor in Computer Science at University of Toronto
+* David Liu: Co-Founder, CTO of PriFi Labs Inc as well as the CEO of dApp Technology Inc. with over 40 blockchain full stack developers
+* Howe Gu: Advisor as well as the Head of Global Strategy, Customer Transformation & Innovation at Microsoft
+* Kevin Oh: Blockchain full stack developer
 
 ## Team Website	
-* https://example.com
+
+[PriFi Labs Inc.](https://prifi-labs.webflow.io/) 
 
 ## Team's experience
-* John has X years coding experience. Mostly doing smart contract development. He worked for ABC.
-* Alice has...
-* Bob has...
+* Thierry has 15 years experience in Academia. His expertise is computer security and data protection. 
+* David has ....
 
-We've been a team for 2 years, and....
+We've been a team for 6 months.
 
-## Team Code Repos
-* https://github.com/<example_repo_1>
-* https://github.com/<example_repo_2>
+## Team Code Reposs
+
+[PriFi Labs on Github](https://github.com/prifilabs)
 
 ## Team LinkedIn Profiles
-* https://www.linkedin.com/<john_>
-* https://www.linkedin.com/<alice_>
-* https://www.linkedin.com/<bob_>
+
+[Thierry Sans](https://www.linkedin.com/in/thierry-sans-0a281227/)
+[David Liu](https://www.linkedin.com/in/davidzimingliu/)
+[Howe Gu](https://www.linkedin.com/in/howegu/)
 
 ## Development Roadmap
-We will require 3 months to complete this project. We intend to hav 2 developers full-time at a total cost of $X,000.
+
+We will require 3 months to complete this project. We intend to hav 2 developers full-time at a total cost of $100,000.
 
 Example milestones:
+
 * smart contract: 40k
 * mailer backend: 30k
 * frontend deployed on IPFS fully integrated with secret contract and mailer backend: 30k
 * documentation: 10k
 
-Ideally, we can receive payments in 3 disbursements, one at the beginning of the grant, one after implementation of Y and last payment when the development work is completed.
+Ideally, we can receive payments in 3 disbursements, one at the beginning of the grant, one after implementation of the smart contract and last payment when the development work is completed.
 
-We would be willing to consider part payment in SCRTs, up to x%.
+We would be willing to consider part payment in SCRTs. 
 
 ## Additional Information
 N/A.
