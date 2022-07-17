@@ -16,7 +16,7 @@ In this paper, we propose a Decentralized Mnemonic Backup system that anyone can
 
 ## Detailed product description
 
-All details of our solution is in [the whitepaper](whitepaper/whitepaper.pdf).
+All details of our solution is in [our whitepaper](https://github.com/prifilabs/decentralized-mnemonic-backup/raw/main/whitepaper/whitepaper.pdf).
  
 ## Go-to-Market plan
 
