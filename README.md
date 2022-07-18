@@ -42,7 +42,7 @@ Why implementing our backup system on Secret Network rather than Ethereum? Is it
 * Thierry Sans has 15 years experience in Academia. His expertise is computer security and data protection. 
 * David Liu has built and managed over 30 blockchain projects. His expertise is blockchain full stack development, business planning and operations.
 * Howe Gu currently leads global strategy for Microsoft Customer Transformation team and has over 15 years of experience advising F500 companies on strategy and transformation as a consultant.
-* Kevin Oh has...
+* Kevin Oh has 2 years of full stack experience and has recently built dApps such as "Decentralized Lottery" on both Ethereum and Secret Network.
 
 We've been a team for 6 months.
 
@@ -55,6 +55,7 @@ We've been a team for 6 months.
 [Thierry Sans](https://www.linkedin.com/in/thierry-sans-0a281227/)
 [David Liu](https://www.linkedin.com/in/davidzimingliu/)
 [Howe Gu](https://www.linkedin.com/in/howegu/)
+[Kevin Oh](https://github.com/kevoh1516)
 
 ## Development Roadmap
 
@@ -65,7 +66,7 @@ Example milestones:
 * smart contract: 40k
 * mailer backend: 30k
 * frontend deployed on IPFS fully integrated with secret contract and mailer backend: 30k
-* documentation: 10k
+* documentation and educational materials: 10k
 
 Ideally, we can receive payments in 3 disbursements, one at the beginning of the grant, one after implementation of the smart contract and last payment when the development work is completed.
 
