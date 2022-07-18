@@ -39,8 +39,10 @@ Why implementing our backup system on Secret Network rather than Ethereum? Is it
 [PriFi Labs Inc.](https://prifi-labs.webflow.io/) 
 
 ## Team's experience
-* Thierry has 15 years experience in Academia. His expertise is computer security and data protection. 
-* David has ....
+* Thierry Sans has 15 years experience in Academia. His expertise is computer security and data protection. 
+* David Liu has built and managed over 30 blockchain projects. His expertise is Blockchain Full Stack development, Business Planning and execution.
+* Howe Gu has worked and lead enterprise companies (PWC, Deloite, Microsoft) on Business Strategy, Customer Success and Business Consulting.
+* Kevin Oh has...
 
 We've been a team for 6 months.
 
