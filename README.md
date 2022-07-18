@@ -40,8 +40,8 @@ Why implementing our backup system on Secret Network rather than Ethereum? Is it
 
 ## Team's experience
 * Thierry Sans has 15 years experience in Academia. His expertise is computer security and data protection. 
-* David Liu has built and managed over 30 blockchain projects. His expertise is Blockchain Full Stack development, Business Planning and execution.
-* Howe Gu has worked and lead enterprise companies (PWC, Deloite, Microsoft) on Business Strategy, Customer Success and Business Consulting.
+* David Liu has built and managed over 30 blockchain projects. His expertise is blockchain full stack development, business planning and operations.
+* Howe Gu currently leads global strategy for Microsoft Customer Transformation team and has over 15 years of experience advising F500 companies on strategy and transformation as a consultant.
 * Kevin Oh has...
 
 We've been a team for 6 months.
