@@ -59,18 +59,40 @@ We've been a team for 6 months.
 
 ## Development Roadmap
 
-We will require 3 months to complete this project. We intend to hav 2 developers full-time at a total cost of $100,000.
+Our development will be divided into two 6-weeks phases at a total cost of $95,000. We plan to hire one full-time  developer for phase 1 and hire a second one for phase 2.
 
-Example milestones:
+### Phase 1: Secret Smart Contract
 
-* smart contract: 40k
-* mailer backend: 30k
-* frontend deployed on IPFS fully integrated with secret contract and mailer backend: 30k
-* documentation and educational materials: 10k
+In this 6 weeks phase, we plan to develop and deploy the Secret Smart Contract described in the iteration 3 of our whitepaper. 
 
-Ideally, we can receive payments in 3 disbursements, one at the beginning of the grant, one after implementation of the smart contract and last payment when the development work is completed.
+- Deliverables:
+    - Whitepaper made public
+    - Secret Smart Contract Source code
+    - Full test suite
 
-We would be willing to consider part payment in SCRTs. 
+- Total cost: $35K
+    - Full Stack Blockchain Developer:  6 x 40 x $80/h = $19,200
+    - CTO Supervision: 6 x 10 x $150/h = $9,000
+    - Operational cost:  $6,800
+
+For this phase, we would like to receive the payment in full at the beginning of the grant. We would be willing to consider part payment in SCRTs. 
+
+### Phase 2: Mailer Backend and Frontend Integration
+
+In this 6 weeks phase, we plan to develop and deploy the mailer backend and the frontend all fully integrated with the secret contract developed in phase 1. 
+
+- Deliverables:
+    - Mailer backend source code
+    - Frontend deployed on IPFS
+    - Documentation and educational materials
+
+- Total cost: $60K
+    - Full Stack Blockchain Developer 1:  6 x 40 x $80/h = $19,200
+    - Full Stack Blockchain Developer 2:  6 x 40 x $80/h = $19,200
+    - CTO Supervision: 6 x 15 x $150/h = $13,500 
+    - Operational cost: $8,100
+    
+For this phase, we would like to receive payments in 2 disbursements, 40K at the beginning of the phase and 20K when the development work is completed. We would be willing to consider part payment in SCRTs. 
 
 ## Additional Information
 N/A.
